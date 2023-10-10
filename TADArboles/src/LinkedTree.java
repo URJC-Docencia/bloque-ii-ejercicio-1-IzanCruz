@@ -112,9 +112,9 @@ public class LinkedTree<E> implements NAryTree<E> {
     @Override
     public E replace(Position<E> p, E e) {
         TreeNode<E> node = checkposition(p);
-        E aux = node.getElement();
-        node.setElement(e);
-        return aux;
+        E old = node.getElement();
+        node.element = e;
+        return old;
     }
 
     @Override
@@ -123,10 +123,11 @@ public class LinkedTree<E> implements NAryTree<E> {
         if (isRoot(node)){
             root = null;
             size = 0;
+        }else {
+            TreeNode<E> parent = node.getParent();
+            parent.getChildren().remove(node);
+            size -= NumNodos(node);
         }
-        TreeNode<E> parent = node.getParent();
-        parent.getChildren().remove(node);
-        size -= NumNodos(node);
     }
 
     private int NumNodos(TreeNode<E> n){
@@ -210,7 +211,15 @@ public class LinkedTree<E> implements NAryTree<E> {
 
     @Override
     public Iterator<Position<E>> iterator() {
+
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Iterator<Position<E>> iteratorPreOrder(){
+        if(isEmpty()){
+            return new ArrayList
+        }
     }
 
     public int size() {
